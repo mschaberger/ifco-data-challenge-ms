@@ -11,15 +11,17 @@ def load_orders(file_path):
 def load_invoicing_data(file_path):
     with open(file_path, 'r') as file:
         data = json.load(file)
-    return pd.json_normalize(data)
+        return pd.json_normalize(data['data'], 'invoices')
 
 
+#### Case 1:
 # Function to calculate the distribution of crate types per company
 def get_crate_distribution_per_company(orders_df):
     distribution = orders_df.groupby(['company_name', 'crate_type']).size().reset_index(name='order_count')
     return distribution
 
 
+#### Case 2:
 # Function to create a Dataframe with the fields 'order_id' and 'contact_full_name'
 def create_contact_full_name(orders_df):
 
@@ -42,6 +44,7 @@ def create_contact_full_name(orders_df):
     return orders_df[['order_id', 'contact_full_name']]
 
 
+#### Case 3:
 # Function to a Dataframe with the fields 'order_id' and 'contact_address'
 def create_contact_address(orders_df):
 
@@ -61,3 +64,46 @@ def create_contact_address(orders_df):
 
     orders_df['contact_address'] = orders_df['contact_data'].apply(format_address)
     return orders_df[['order_id', 'contact_address']]
+
+
+#### Case 4:
+# Helper function to split and clean the salesowners list
+def extract_salesowners(owners_str):
+    return [owner.strip() for owner in owners_str.split(',')] if owners_str else []
+
+# Helper function to calculate the commission based on the owner's position
+def calculate_owner_commission(net_value, position):
+    commission_rates = {
+        0: 0.06,  
+        1: 0.025, 
+        2: 0.0095 
+    }
+    return commission_rates.get(position, 0) * net_value
+
+# Function to calculate commissions for all sales owners involved in an order
+def calculate_commissions_for_order(merged_df):
+    sales_commissions = {}
+
+    for _, row in merged_df.iterrows():
+        net_value = int(row['grossValue']) - int(row['vat']) 
+        salesowners = extract_salesowners(row['salesowners'])
+        
+        for position, owner in enumerate(salesowners[:3]): 
+            commission = calculate_owner_commission(net_value, position)
+            if owner not in sales_commissions:
+                sales_commissions[owner] = 0
+            sales_commissions[owner] += commission
+
+    return sales_commissions
+
+# Function to calculate the sales commissions by merging order and invoice data.
+def calculate_commissions(orders_df, invoices_df):
+    merged_df = pd.merge(orders_df, invoices_df, left_on='order_id', right_on='orderId')
+    sales_commissions = calculate_commissions_for_order(merged_df)
+
+    sales_commissions = {owner: round(commission / 100, 2) for owner, commission in sales_commissions.items()}
+
+    commission_df = pd.DataFrame(list(sales_commissions.items()), columns=['salesowner', 'commission'])
+    commission_df = commission_df.sort_values(by='commission', ascending=False).reset_index(drop=True)
+    
+    return commission_df

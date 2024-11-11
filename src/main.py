@@ -4,7 +4,8 @@ from functions import (
     load_invoicing_data,
     get_crate_distribution_per_company,
     create_contact_full_name,
-    create_contact_address
+    create_contact_address,
+    calculate_commissions
 )
 
 def main():
@@ -30,6 +31,11 @@ def main():
     df_2 = create_contact_address(orders_df)
     print("Test 3: DataFrame of Orders with Contact Address:")
     print(df_2)
+
+    # Test 4: Calculation of Sales Team Commissions
+    sales_owner_commission = calculate_commissions(orders_df, invoicing_df)
+    print("Test 4: List of sales owners and their respective commission:")
+    print(sales_owner_commission)
 
 if __name__ == '__main__':
     main()
