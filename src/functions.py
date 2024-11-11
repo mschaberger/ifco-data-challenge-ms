@@ -12,7 +12,7 @@ def load_invoicing_data(file_path):
         data = json.load(file)
     return pd.json_normalize(data)
 
-# Function to alculate the distribution of crate types per company
+# Function to calculate the distribution of crate types per company
 def get_crate_distribution_per_company(orders_df):
     distribution = orders_df.groupby(['company_name', 'crate_type']).size().reset_index(name='order_count')
     

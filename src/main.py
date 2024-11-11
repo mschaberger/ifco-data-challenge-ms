@@ -7,22 +7,22 @@ from functions import (
 )
 
 def main():
-    # Rutas a los archivos de datos
+    # Data file paths
     orders_file_path = os.path.join('data', 'orders.csv')
     invoicing_file_path = os.path.join('data', 'invoicing_data.json')
 
-    # Cargar los datos
+    # Load data
     orders_df = load_orders(orders_file_path)
     invoicing_df = load_invoicing_data(invoicing_file_path)
 
-    # Calcular la distribución de tipos de cajas por compañía
+    # Test 1: Calculate the distribution of crate types per company
     crate_distribution = get_crate_distribution_per_company(orders_df)
-    print("Distribución de Tipos de Cajas por Compañía:")
+    print("Test 1: Distribution of crate types per company:")
     print(crate_distribution)
 
-    # Crear un DataFrame con nombres completos de contactos
+    # Test 2: Create A Dataframe with order id and contact name
     df_1 = create_contact_full_name(orders_df)
-    print("DataFrame con Nombres Completos de Contactos:")
+    print("Test 2: Dataframe with order id and contact name:")
     print(df_1)
 
 if __name__ == '__main__':
