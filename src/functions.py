@@ -45,7 +45,7 @@ def create_contact_full_name(orders_df):
 
 
 #### Case 3:
-# Function to a Dataframe with the fields 'order_id' and 'contact_address'
+# Function to create a Dataframe with the fields 'order_id' and 'contact_address'
 def create_contact_address(orders_df):
 
     def format_address(address_data):
@@ -107,3 +107,19 @@ def calculate_commissions(orders_df, invoices_df):
     commission_df = commission_df.sort_values(by='commission', ascending=False).reset_index(drop=True)
     
     return commission_df
+
+
+#### Case 5:
+# Function to create a DataFrame with the fields 'company_id', 'company_name' and 'list_salesowners'
+def create_company_salesowners_df(orders_df):
+    unique_companies = orders_df.groupby('company_id').agg({
+        'company_name': 'first', 
+        'salesowners': lambda x: ', '.join(set(', '.join(x).split(',')))
+    }).reset_index()
+
+    unique_companies['list_salesowners'] = unique_companies['salesowners'].apply(
+        lambda owners: ', '.join(sorted({owner.strip() for owner in owners.split(',') if owner.strip()}))
+    )
+
+    unique_companies = unique_companies.drop(columns='salesowners')
+    return unique_companies

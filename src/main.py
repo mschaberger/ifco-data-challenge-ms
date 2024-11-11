@@ -5,7 +5,8 @@ from functions import (
     get_crate_distribution_per_company,
     create_contact_full_name,
     create_contact_address,
-    calculate_commissions
+    calculate_commissions,
+    create_company_salesowners_df
 )
 
 def main():
@@ -36,6 +37,11 @@ def main():
     sales_owner_commission = calculate_commissions(orders_df, invoicing_df)
     print("Test 4: List of sales owners and their respective commission:")
     print(sales_owner_commission)
+
+    # Test 5: DataFrame of Companies with Sales Owners
+    df_3 = create_company_salesowners_df(orders_df)
+    print("Test 5: DataFrame of Companies with Sales Owners:")
+    print(df_3)
 
 if __name__ == '__main__':
     main()

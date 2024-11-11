@@ -4,7 +4,8 @@ from src.functions import (
     get_crate_distribution_per_company,
     create_contact_full_name,
     create_contact_address,
-    calculate_commissions 
+    calculate_commissions,
+    create_company_salesowners_df
 )
 
 class TestFunctions(unittest.TestCase):
@@ -12,6 +13,7 @@ class TestFunctions(unittest.TestCase):
     def setUp(self):
         self.orders_data = pd.DataFrame({
             'order_id': [1, 2, 3, 4, 5],
+            'company_id': ['c111', 'c222', 'c111', 'c111', 'c222'],
             'company_name': ['Company A', 'Company B', 'Company A', 'Company A', 'Company B'],
             'crate_type': ['Type 1', 'Type 2', 'Type 1', 'Type 2', 'Type 2'],
             'contact_data': [
@@ -64,8 +66,21 @@ class TestFunctions(unittest.TestCase):
             'commission': [19.40, 18.49, 18.24, 15.00, 13.39, 7.54]
         })
         pd.testing.assert_frame_equal(result[['salesowner', 'commission']], expected)
+        
         expected_order = [19.40, 18.49, 18.24, 15.00, 13.39, 7.54]  
         self.assertListEqual(result['commission'].tolist(), expected_order)
+
+    def test_salesowners_sorted(self):
+        result = create_company_salesowners_df(self.orders_data)
+        for owners in result['list_salesowners']:
+            owners_list = [owner.strip() for owner in owners.split(',')]
+            self.assertEqual(owners_list, sorted(owners_list))
+            self.assertEqual(len(owners_list), len(set(owners_list)))
+
+    def test_handling_duplicates(self):
+        result = create_company_salesowners_df(self.orders_data)
+        unique_companies = result['company_id'].nunique()
+        self.assertEqual(unique_companies, len(result))
 
 if __name__ == '__main__':
     unittest.main()
