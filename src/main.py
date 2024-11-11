@@ -3,7 +3,8 @@ from functions import (
     load_orders,
     load_invoicing_data,
     get_crate_distribution_per_company,
-    create_contact_full_name
+    create_contact_full_name,
+    create_contact_address
 )
 
 def main():
@@ -15,15 +16,20 @@ def main():
     orders_df = load_orders(orders_file_path)
     invoicing_df = load_invoicing_data(invoicing_file_path)
 
-    # Test 1: Calculate the distribution of crate types per company
+    # Test 1: Distribution of Crate Type per Company
     crate_distribution = get_crate_distribution_per_company(orders_df)
     print("Test 1: Distribution of crate types per company:")
     print(crate_distribution)
 
-    # Test 2: Create A Dataframe with order id and contact name
+    # Test 2: DataFrame of Orders with Full Name of the Contact
     df_1 = create_contact_full_name(orders_df)
     print("Test 2: Dataframe with order id and contact name:")
     print(df_1)
+
+    # Test 3: DataFrame of Orders with Contact Address
+    df_2 = create_contact_address(orders_df)
+    print("Test 3: DataFrame of Orders with Contact Address:")
+    print(df_2)
 
 if __name__ == '__main__':
     main()
