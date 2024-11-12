@@ -34,6 +34,7 @@ class TestFunctions(unittest.TestCase):
             'vat': [0, 19, 22, 0, 34]
         })
 
+    #### Test case 1:
     def test_get_crate_distribution_per_company(self):
         result = get_crate_distribution_per_company(self.orders_data)
         expected = pd.DataFrame({
@@ -43,6 +44,7 @@ class TestFunctions(unittest.TestCase):
         })
         pd.testing.assert_frame_equal(result, expected)
 
+    #### Test case 2:
     def test_create_contact_full_name(self):
         result = create_contact_full_name(self.orders_data)
         expected = pd.DataFrame({
@@ -51,6 +53,7 @@ class TestFunctions(unittest.TestCase):
         })
         pd.testing.assert_frame_equal(result[['order_id', 'contact_full_name']], expected)
 
+    #### Test case 3:
     def test_create_contact_address(self):
         result = create_contact_address(self.orders_data)
         expected = pd.DataFrame({
@@ -59,6 +62,7 @@ class TestFunctions(unittest.TestCase):
         })
         pd.testing.assert_frame_equal(result[['order_id', 'contact_address']], expected)
 
+    #### Test case 4:
     def test_calculate_commissions(self):
         result = calculate_commissions(self.orders_data, self.invoices_data)
         expected = pd.DataFrame({
@@ -70,6 +74,7 @@ class TestFunctions(unittest.TestCase):
         expected_order = [19.40, 18.49, 18.24, 15.00, 13.39, 7.54]  
         self.assertListEqual(result['commission'].tolist(), expected_order)
 
+    #### Test case 5:
     def test_salesowners_sorted(self):
         result = create_company_salesowners_df(self.orders_data)
         for owners in result['list_salesowners']:
@@ -77,8 +82,6 @@ class TestFunctions(unittest.TestCase):
             self.assertEqual(owners_list, sorted(owners_list))
             self.assertEqual(len(owners_list), len(set(owners_list)))
 
-    def test_handling_duplicates(self):
-        result = create_company_salesowners_df(self.orders_data)
         unique_companies = result['company_id'].nunique()
         self.assertEqual(unique_companies, len(result))
 

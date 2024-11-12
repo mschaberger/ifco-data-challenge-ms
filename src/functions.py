@@ -22,7 +22,7 @@ def get_crate_distribution_per_company(orders_df):
 
 
 #### Case 2:
-# Function to create a Dataframe with the fields 'order_id' and 'contact_full_name'
+# Function to create a DataFrame with the fields 'order_id' and 'contact_full_name'
 def create_contact_full_name(orders_df):
 
     # Function to extract name and surname from the field 'contact_data'
@@ -45,7 +45,7 @@ def create_contact_full_name(orders_df):
 
 
 #### Case 3:
-# Function to create a Dataframe with the fields 'order_id' and 'contact_address'
+# Function to create a DataFrame with the fields 'order_id' and 'contact_address'
 def create_contact_address(orders_df):
 
     def format_address(address_data):
@@ -80,7 +80,7 @@ def calculate_owner_commission(net_value, position):
     }
     return commission_rates.get(position, 0) * net_value
 
-# Function to calculate commissions for all sales owners involved in an order
+# Helper function to calculate commissions for all sales owners involved in an order
 def calculate_commissions_for_order(merged_df):
     sales_commissions = {}
 

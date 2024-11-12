@@ -25,7 +25,7 @@ def main():
 
     # Test 2: DataFrame of Orders with Full Name of the Contact
     df_1 = create_contact_full_name(orders_df)
-    print("Test 2: Dataframe with order id and contact name:")
+    print("Test 2: DataFrame with order id and contact name:")
     print(df_1)
 
     # Test 3: DataFrame of Orders with Contact Address
