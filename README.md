@@ -5,17 +5,17 @@ Welcome to the IFCO Data Engineering Challenge! The goal of this project is to a
 
 
 ### Project Structure
-ifco-data-challenge/
-├── data/
-│   ├── orders.csv
-│   └── invoicing_data.json
-├── src/
-│   ├── functions.py
-│   └── main.py
-├── tests/
-│   └── test_functions.py
-├── requirements.txt
-└── README.md
+ifco-data-challenge/  
+├── data/  
+│   ├── orders.csv  
+│   └── invoicing_data.json  
+├── src/  
+│   ├── functions.py  
+│   └── main.py  
+├── tests/  
+│   └── test_functions.py  
+├── requirements.txt  
+└── README.md  
 
 - **data/**: Contains input files (orders.csv and invoicing_data.json).
 - **src/**: Contains the main scripts for data processing and analysis.
@@ -25,7 +25,6 @@ ifco-data-challenge/
 - **requirements.txt**: Contains dependencies needed to run the solution.
 - **README.md**: Project documentation.
 
----
 
 ### Requirements
 The project requires Python 3.8+ and the following libraries:  
@@ -42,11 +41,10 @@ To install the dependencies, run:
 1. Clone the repository and navigate to the project folder:  
     ```git clone <https://github.com/mschaberger/ifco-data-challenge-ms.git>```
 
-2. Ensure that the input files (orders.csv and invoicing_data.json) are present in the data/ directory.
+2. Ensure that the input files (orders.csv and invoicing_data.json) are present in the **data/** directory.
 
 3. To run the main script:  
     ```python src/main.py```
-    This script performs all the tasks described in the challenge.
 
 4. To run the unit tests:  
     ```python -m unittest discover -s tests/```
