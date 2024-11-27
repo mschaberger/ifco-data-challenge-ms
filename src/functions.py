@@ -17,7 +17,11 @@ def load_invoicing_data(file_path):
 #### Case 1:
 # Function to calculate the distribution of crate types per company
 def get_crate_distribution_per_company(orders_df):
-    distribution = orders_df.groupby(['company_name', 'crate_type']).size().reset_index(name='order_count')
+    distribution = orders_df.groupby(['company_id', 'crate_type']).size().reset_index(name='order_count')
+    company_names = orders_df.groupby('company_id')['company_name'].first()
+    distribution['company_name'] = distribution['company_id'].map(company_names)
+    distribution = distribution[['company_name', 'crate_type', 'order_count']].sort_values(by='order_count', ascending=False).reset_index(drop=True)
+
     return distribution
 
 
